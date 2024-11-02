@@ -4,7 +4,7 @@ import { ProductWithImage } from "@/utils/supabase/additionalTypes";
 
 type ProductStore = {
   productsWithImages: ProductWithImage[];
-  setProductsWithImages: (products: ProductWithImage[]) => void;
+  setProductsWithImages: (productsWithImages: ProductWithImage[]) => void;
   categories: Tables<"categories">[];
   setCategories: (categories: Tables<"categories">[]) => void;
   bestsellers: Tables<"bestsellers">[];
