@@ -7,10 +7,9 @@ import ClientProvider from "@/components/providers/ClientProvider";
 import ShopDataProvider from "@/components/providers/ShopDataProvider";
 import {
   getServerBestsellers,
-  getServerProducts,
+  getServerCategories,
   getServerProductsWithImages,
 } from "@/utils/supabase/server-queries";
-import { getServerCategories } from "@/utils/supabase/server-queries";
 import InfoBar from "@/components/info/InfoBar";
 
 export default async function RootLayout({
@@ -38,19 +37,19 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ClientProvider initialUser={user}>
-            <ShopDataProvider
-              initialProductsWithImages={initialProductsWithImages ?? []}
-              initialCategories={initialCategories ?? []}
-              initialBestsellers={initialBestsellers ?? []}
-            >
+          <ShopDataProvider
+            initialProductsWithImages={initialProductsWithImages ?? []}
+            initialCategories={initialCategories ?? []}
+            initialBestsellers={initialBestsellers ?? []}
+          >
+            <ClientProvider initialUser={user}>
               <Navigation />
               <InfoBar />
               <main className="min-h-screen flex flex-col items-center py-12 px-4 lg:px-12">
                 {children}
               </main>
-            </ShopDataProvider>
-          </ClientProvider>
+            </ClientProvider>
+          </ShopDataProvider>
         </ThemeProvider>
       </body>
     </html>
