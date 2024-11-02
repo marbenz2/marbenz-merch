@@ -10,14 +10,22 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { signOutAction } from "@/app/actions";
+import { useUserStore } from "@/app/stores/userStore";
 
 export default function User() {
+  const { profile } = useUserStore();
+
+  const userInitials =
+    ((profile?.first_name?.charAt(0) ?? "") + (profile?.last_name?.charAt(0) ?? "")).toUpperCase();
+
+  console.log(userInitials);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback>{userInitials}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
