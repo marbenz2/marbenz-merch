@@ -45,32 +45,34 @@ export default function Sidebar() {
       {!isLoading && (
         <CardContent className="p-0">
           <div className="flex flex-col md:flex-row md:overflow-x-auto">
-            <div className="flex overflow-x-auto md:overflow-x-visible">
+            {/* Special Categories */}
+            <div className="flex overflow-x-auto md:overflow-x-visible touch-pan-x">
               {categoriesStructure.special.map((specialCat, index) => (
                 <Link
                   key={specialCat.id}
                   href={`/products?category=${specialCat.name.toLowerCase()}`}
-                  className="flex h-14 items-center px-8 hover:bg-contrast transition-colors duration-300 text-sm"
+                  className="flex h-14 items-center px-8 hover:bg-contrast transition-colors duration-300 text-sm whitespace-nowrap"
                 >
                   {specialCat.name.toUpperCase()}
                 </Link>
               ))}
             </div>
             <Separator className="flex md:hidden bg-border-navigation" />
-            <div className="flex overflow-x-auto md:overflow-x-visible">
+            {/* Main Categories */}
+            <div className="flex overflow-x-auto md:overflow-x-visible touch-pan-x">
               {categoriesStructure.main.map((mainCat) => (
-                <DropDownMenuComponent
-                  key={mainCat.id}
-                  className="flex h-14 items-center px-8 hover:bg-contrast transition-colors duration-300 text-sm hover:text-none data-[state=open]:bg-contrast"
-                  link={{
-                    label: mainCat.name.toUpperCase(),
-                    subcategories: mainCat.subCategories.map((subCat) => ({
-                      type: subCat.name,
-                      href: `/products?category=${subCat.name.toLowerCase()}`,
-                      icon: <ShirtIcon />,
-                    })),
-                  }}
-                />
+                <div key={mainCat.id} className="whitespace-nowrap">
+                  <DropDownMenuComponent
+                    className="flex h-14 items-center px-8 hover:bg-contrast transition-colors duration-300 text-sm hover:text-none data-[state=open]:bg-contrast"
+                    link={{
+                      label: mainCat.name.toUpperCase(),
+                      subcategories: mainCat.subCategories.map((subCat) => ({
+                        type: subCat.name,
+                        href: `/products?category=${subCat.name.toLowerCase()}`,
+                      })),
+                    }}
+                  />
+                </div>
               ))}
             </div>
           </div>
