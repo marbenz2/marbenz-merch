@@ -10,12 +10,16 @@ import {
 import { useState } from "react";
 import { useCartStore } from "@/app/stores/cartStore";
 import { useToast } from "@/hooks/use-toast";
+import { useUserStore } from "@/app/stores/userStore";
+import { CardDescription } from "../ui/card";
+import Link from "next/link";
 
 type Size = string;
 type Color = { name: string; value: string };
 
 export function ProductDetails({ product }: { product: Products }) {
   const { toast } = useToast();
+  const { profile } = useUserStore();
   const { addItem } = useCartStore();
   const [selectedSize, setSelectedSize] = useState<Size>();
   const [selectedColor, setSelectedColor] = useState<string>(
@@ -87,13 +91,24 @@ export function ProductDetails({ product }: { product: Products }) {
             {selectedColor && <p className="text-sm">{selectedColor}</p>}
           </div>
 
-          <Button
-            onClick={() => handleAddToCart(product)}
-            className="w-full"
-            disabled={!selectedSize || !selectedColor}
-          >
-            In den Warenkorb
-          </Button>
+          {!profile && (
+            <CardDescription>
+              Bitte{" "}
+              <Link href="/sign-in" className="underline decoration-dotted">
+                logge dich ein
+              </Link>{" "}
+              um Produkte in den Warenkorb zu legen.
+            </CardDescription>
+          )}
+          {profile && (
+            <Button
+              onClick={() => handleAddToCart(product)}
+              className="w-full"
+              disabled={!selectedSize || !selectedColor}
+            >
+              In den Warenkorb
+            </Button>
+          )}
         </div>
       </div>
     </div>
