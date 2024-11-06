@@ -57,7 +57,7 @@ export default async function RootLayout({
                 >
                   <Navigation />
                   <InfoBar />
-                  <main className="w-full min-h-screen flex flex-col items-center py-12 px-4 lg:px-12">
+                  <main className="w-full min-h-screen flex flex-col items-center py-12 px-1 md:px-4 lg:px-12">
                     {children}
                   </main>
                   <Footer />
