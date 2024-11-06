@@ -6,9 +6,10 @@ import Links from "./Links";
 import Logo from "./Logo";
 import User from "./User";
 import NoUser from "./NoUser";
+import Spinner from "../ui/Spinner";
 
 export default function Navbar() {
-  const profile = useUserStore((state) => state.profile);
+  const { profile, isLoading } = useUserStore();
 
   return (
     <nav className="flex w-full py-6 px-4 lg:px-12 border-b-4 border-border-navigation bg-background-navigation">
@@ -16,8 +17,9 @@ export default function Navbar() {
         <Logo />
         <Links />
         <div className="flex gap-4 items-center">
-          {profile && <User />}
-          {!profile && <NoUser />}
+          {!profile && isLoading && <Spinner />}
+          {!isLoading && profile && <User />}
+          {!isLoading && !profile && <NoUser />}
           <ThemeSwitcher />
         </div>
       </div>

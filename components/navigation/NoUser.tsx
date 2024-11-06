@@ -8,7 +8,7 @@ export default function NoUser() {
       <Link href="/sign-in">
         <Button>Login</Button>
       </Link>
-      <Link href="/sign-up">
+      <Link href="/sign-up" className="hidden lg:block">
         <Button>Registrieren</Button>
       </Link>
     </div>
