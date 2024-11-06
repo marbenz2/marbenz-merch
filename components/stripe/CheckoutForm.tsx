@@ -153,6 +153,15 @@ const CheckoutForm = ({
                 currency: "EUR",
               }).format(amount)}
             </CardDescription>
+            <CardDescription className="py-4 pl-4">
+              Kreditkarten Demo Daten:
+              <br />
+              Kartennummer: 4242 4242 4242 4242
+              <br />
+              Ablaufdatum: 01/28
+              <br />
+              Sicherheitscode: 123
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="flex flex-col gap-16">
