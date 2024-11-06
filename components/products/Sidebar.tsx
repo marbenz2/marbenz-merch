@@ -1,16 +1,53 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useProductStore } from "@/app/stores/productStore";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 import { DropDownMenuComponent } from "../DropDownMenuComponent";
-import { ShirtIcon } from "lucide-react";
 import Spinner from "../ui/Spinner";
 
 export default function Sidebar() {
   const { categories, isLoading } = useProductStore();
+
+  const ScrollableContainer = ({ children }: { children: React.ReactNode }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isScrollingRef = useRef(false);
+    const startXRef = useRef(0);
+
+    const handleTouchStart = useCallback((e: React.TouchEvent) => {
+      startXRef.current = e.touches[0].clientX;
+      isScrollingRef.current = false;
+    }, []);
+
+    const handleTouchMove = useCallback((e: React.TouchEvent) => {
+      const deltaX = Math.abs(e.touches[0].clientX - startXRef.current);
+      if (deltaX > 5) {
+        isScrollingRef.current = true;
+      }
+    }, []);
+
+    const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+      // Verhindert Bubble-Up des Events wenn wir scrollen
+      if (isScrollingRef.current) {
+        e.stopPropagation();
+      }
+      isScrollingRef.current = false;
+    }, []);
+
+    return (
+      <div
+        ref={containerRef}
+        className="flex overflow-x-auto md:overflow-x-visible touch-pan-x"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {children}
+      </div>
+    );
+  };
 
   const categoriesStructure = useMemo(() => {
     const mainCategories = categories
@@ -46,7 +83,7 @@ export default function Sidebar() {
         <CardContent className="p-0">
           <div className="flex flex-col md:flex-row md:overflow-x-auto">
             {/* Special Categories */}
-            <div className="flex overflow-x-auto md:overflow-x-visible touch-pan-x">
+            <ScrollableContainer>
               {categoriesStructure.special.map((specialCat, index) => (
                 <Link
                   key={specialCat.id}
@@ -56,10 +93,10 @@ export default function Sidebar() {
                   {specialCat.name.toUpperCase()}
                 </Link>
               ))}
-            </div>
+            </ScrollableContainer>
             <Separator className="flex md:hidden bg-border-navigation" />
             {/* Main Categories */}
-            <div className="flex overflow-x-auto md:overflow-x-visible touch-pan-x">
+            <ScrollableContainer>
               {categoriesStructure.main.map((mainCat) => (
                 <div key={mainCat.id} className="whitespace-nowrap">
                   <DropDownMenuComponent
@@ -74,7 +111,7 @@ export default function Sidebar() {
                   />
                 </div>
               ))}
-            </div>
+            </ScrollableContainer>
           </div>
         </CardContent>
       )}
