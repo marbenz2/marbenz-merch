@@ -1,21 +1,25 @@
 import { create } from "zustand";
 import { Tables } from "@/database.types";
-import { ProductWithImage } from "@/utils/supabase/additionalTypes";
+import { Products } from "@/utils/supabase/additionalTypes";
 
 type ProductStore = {
-  productsWithImages: ProductWithImage[];
-  setProductsWithImages: (productsWithImages: ProductWithImage[]) => void;
+  products: Products[];
+  setProducts: (products: Products[]) => void;
   categories: Tables<"categories">[];
   setCategories: (categories: Tables<"categories">[]) => void;
   bestsellers: Tables<"bestsellers">[];
   setBestsellers: (bestsellers: Tables<"bestsellers">[]) => void;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
 };
 
 export const useProductStore = create<ProductStore>((set) => ({
-  productsWithImages: [],
-  setProductsWithImages: (productsWithImages) => set({ productsWithImages }),
+  products: [],
+  setProducts: (products) => set({ products }),
   categories: [],
   setCategories: (categories) => set({ categories }),
   bestsellers: [],
   setBestsellers: (bestsellers) => set({ bestsellers }),
+  isLoading: true,
+  setIsLoading: (isLoading) => set({ isLoading }),
 }));
