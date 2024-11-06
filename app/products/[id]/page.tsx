@@ -8,12 +8,12 @@ export default function ProductPage(props: {
   params: Promise<{ id: string }>;
 }) {
   const params = use(props.params);
-  const { productsWithImages } = useProductStore();
-  const productWithImage = productsWithImages.find((p) => p.id === params.id);
+  const { products } = useProductStore();
+  const product = products.find((p) => p.id === params.id);
 
-  if (!productWithImage) {
+  if (!product) {
     return <div>Produkt nicht gefunden</div>;
   }
 
-  return <ProductDetails productWithImage={productWithImage} />;
+  return <ProductDetails product={product} />;
 }
