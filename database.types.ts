@@ -61,46 +61,72 @@ export type Database = {
       }
       categories: {
         Row: {
+          category_type: string | null
           created_at: string
           description: string | null
           id: string
+          is_active: boolean | null
+          is_main_category: boolean | null
           name: string
+          parent_id: string | null
         }
         Insert: {
+          category_type?: string | null
           created_at?: string
           description?: string | null
           id?: string
+          is_active?: boolean | null
+          is_main_category?: boolean | null
           name: string
+          parent_id?: string | null
         }
         Update: {
+          category_type?: string | null
           created_at?: string
           description?: string | null
           id?: string
+          is_active?: boolean | null
+          is_main_category?: boolean | null
           name?: string
+          parent_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       order_items: {
         Row: {
+          color: string | null
           id: string
           order_id: string | null
           price_at_time: number
           product_id: string | null
           quantity: number
+          size: string | null
         }
         Insert: {
+          color?: string | null
           id?: string
           order_id?: string | null
           price_at_time: number
           product_id?: string | null
           quantity: number
+          size?: string | null
         }
         Update: {
+          color?: string | null
           id?: string
           order_id?: string | null
           price_at_time?: number
           product_id?: string | null
           quantity?: number
+          size?: string | null
         }
         Relationships: [
           {
@@ -123,6 +149,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          order_number: string
           shipping_address: Json
           status: string
           total_amount: number
@@ -132,6 +159,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          order_number: string
           shipping_address: Json
           status?: string
           total_amount: number
@@ -141,6 +169,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          order_number?: string
           shipping_address?: Json
           status?: string
           total_amount?: number
@@ -350,6 +379,7 @@ export type Database = {
       profiles: {
         Row: {
           birth_date: string | null
+          customer_number: string
           email: string
           first_name: string
           id: string
@@ -359,6 +389,7 @@ export type Database = {
         }
         Insert: {
           birth_date?: string | null
+          customer_number: string
           email: string
           first_name: string
           id: string
@@ -368,6 +399,7 @@ export type Database = {
         }
         Update: {
           birth_date?: string | null
+          customer_number?: string
           email?: string
           first_name?: string
           id?: string
