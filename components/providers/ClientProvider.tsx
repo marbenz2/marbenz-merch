@@ -15,13 +15,7 @@ export default function ClientProvider({
   children,
   initialUser,
 }: ClientProviderProps) {
-  const { setProfile } = useUserStore();
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Entwicklungs-Logging mit process.env.NODE_ENV
-  /*   if (process.env.NODE_ENV === "development") {
-    console.log("ClientProvider rendering, initialUser:", initialUser);
-  } */
+  const { setProfile, isLoading, setIsLoading } = useUserStore();
 
   useEffect(() => {
     async function fetchUserProfile() {
@@ -29,7 +23,6 @@ export default function ClientProvider({
         setProfile(null);
         return;
       }
-
       setIsLoading(true);
       try {
         const result = await getUserProfile(initialUser.id);
@@ -40,6 +33,7 @@ export default function ClientProvider({
       } catch (error) {
         console.error("Fehler beim Laden des Benutzerprofils:", error);
         setProfile(null);
+        setIsLoading(false);
       } finally {
         setIsLoading(false);
       }
@@ -47,10 +41,6 @@ export default function ClientProvider({
 
     fetchUserProfile();
   }, [initialUser, setProfile]);
-
-  if (isLoading) {
-    return <Spinner />;
-  }
 
   return <>{children}</>;
 }
