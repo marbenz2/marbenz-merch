@@ -1,5 +1,4 @@
 import { GeistSans } from "geist/font/sans";
-import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Navigation from "@/components/navigation/Navigation";
 import { createClient as createServerClient } from "@/utils/supabase/server";
@@ -38,34 +37,27 @@ export default async function RootLayout({
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ClientProvider initialUser={user}>
-            <ShopDataProvider
-              initialProducts={initialProducts ?? []}
-              initialCategories={initialCategories ?? []}
-              initialBestsellers={initialBestsellers ?? []}
-            >
-              <CartDataProvider user={user}>
-                <OrderDataProvider
-                  user={user}
-                  initialOrders={initialOrders ?? []}
-                >
-                  <Navigation />
-                  <InfoBar />
-                  <main className="w-full min-h-screen flex flex-col items-center py-12 px-1 md:px-4 lg:px-12">
-                    {children}
-                  </main>
-                  <Footer />
-                </OrderDataProvider>
-              </CartDataProvider>
-            </ShopDataProvider>
-          </ClientProvider>
-        </ThemeProvider>
+        <ClientProvider initialUser={user}>
+          <ShopDataProvider
+            initialProducts={initialProducts ?? []}
+            initialCategories={initialCategories ?? []}
+            initialBestsellers={initialBestsellers ?? []}
+          >
+            <CartDataProvider user={user}>
+              <OrderDataProvider
+                user={user}
+                initialOrders={initialOrders ?? []}
+              >
+                <Navigation />
+                <InfoBar />
+                <main className="w-full min-h-screen flex flex-col items-center py-12 px-1 md:px-4 lg:px-12">
+                  {children}
+                </main>
+                <Footer />
+              </OrderDataProvider>
+            </CartDataProvider>
+          </ShopDataProvider>
+        </ClientProvider>
         <Toaster />
       </body>
     </html>

@@ -16,16 +16,17 @@ export default function Navbar() {
     <nav className="flex flex-col gap-2 w-full pt-6 pb-0 px-4 lg:px-12 border-b-4 border-border-navigation bg-background-navigation">
       <div className="flex gap-4 items-center justify-between w-full mx-auto">
         <Logo />
-        <Links />
+        {/* <Links /> */}
         <div className="flex gap-4 items-center">
           {!profile && isLoading && <Spinner />}
           {!isLoading && profile && <User />}
           {!isLoading && !profile && <NoUser />}
-          <ThemeSwitcher />
         </div>
       </div>
       <div className="flex w-full justify-center">
-        <CardDescription>Ich bin nur ein Demo Shop!</CardDescription>
+        <CardDescription className="text-xs">
+          Ich bin nur ein Demo Shop!
+        </CardDescription>
       </div>
     </nav>
   );
