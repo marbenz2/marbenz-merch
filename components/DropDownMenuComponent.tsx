@@ -13,7 +13,7 @@ import { cn } from "@/utils/cn";
 interface Subcategory {
   type: string;
   href: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 interface NavLink {
