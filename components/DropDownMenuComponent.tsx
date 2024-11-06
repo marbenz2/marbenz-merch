@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import Link from "next/link";
-import React from "react";
+import React, { useState, useRef, TouchEvent } from "react";
 import { cn } from "@/utils/cn";
 
 interface Subcategory {
@@ -30,8 +30,46 @@ export const DropDownMenuComponent = ({
   link: NavLink;
   className?: string;
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const touchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleTouchStart = (e: TouchEvent) => {
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    };
+
+    // Verzögerung beim Öffnen des Dropdowns
+    touchTimeoutRef.current = setTimeout(() => {
+      setIsOpen(true);
+    }, 200);
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    if (!touchStartRef.current) return;
+
+    const deltaX = Math.abs(e.touches[0].clientX - touchStartRef.current.x);
+    const deltaY = Math.abs(e.touches[0].clientY - touchStartRef.current.y);
+
+    // Wenn Bewegung erkannt wird, Dropdown nicht öffnen
+    if (deltaX > 5 || deltaY > 5) {
+      if (touchTimeoutRef.current) {
+        clearTimeout(touchTimeoutRef.current);
+      }
+      touchStartRef.current = null;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+    }
+    touchStartRef.current = null;
+  };
+
   return (
-    <DropdownMenu key={link.label}>
+    <DropdownMenu key={link.label} open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
         <div
           className={cn(
@@ -39,6 +77,9 @@ export const DropDownMenuComponent = ({
 
             className
           )}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           {link.label} <ChevronDown className="size-4" />
         </div>
