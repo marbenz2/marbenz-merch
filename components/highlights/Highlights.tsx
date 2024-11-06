@@ -1,26 +1,20 @@
 "use client";
 
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useProductStore } from "@/app/stores/productStore";
-import HighlightCard from "../ui/highlight-card";
+import { CarouselComponent } from "../CarouselComponent";
+import Spinner from "../ui/Spinner";
 
 export default function Highlights() {
-  const { bestsellers } = useProductStore();
-  const { productsWithImages } = useProductStore();
+  const { bestsellers, isLoading, products } = useProductStore();
 
   const sortedBestsellers = bestsellers.sort((a, b) => a.rank - b.rank);
 
-  const highlightsWithImages = productsWithImages
-    .filter((productWithImage) =>
+  const highlights = products
+    .filter((product) =>
       sortedBestsellers.some(
-        (sortedBestseller) =>
-          sortedBestseller.product_id === productWithImage.id
+        (sortedBestseller) => sortedBestseller.product_id === product.id
       )
     )
     .sort((a, b) => {
@@ -32,19 +26,24 @@ export default function Highlights() {
     });
 
   return (
-    <Card className="flex flex-col w-full">
+    <Card>
       <CardHeader>
         <CardTitle className="text-contrast">Bestseller</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-wrap gap-4">
-          {highlightsWithImages.map((highlightWithImage) => (
-            <HighlightCard
-              key={highlightWithImage.id}
-              productWithImage={highlightWithImage}
-            />
-          ))}
-        </div>
+        {isLoading && (
+          <div className="flex justify-center items-center h-full py-12">
+            <Spinner />
+          </div>
+        )}
+        {!isLoading && (
+          <CarouselComponent
+            products={highlights}
+            variant="highlight"
+            loop={true}
+            autoplay={true}
+          />
+        )}
       </CardContent>
     </Card>
   );
