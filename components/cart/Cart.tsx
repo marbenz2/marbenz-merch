@@ -48,7 +48,7 @@ export default function Cart() {
           {items.map((item) => (
             <CardBackplate
               key={item.product.id}
-              className="flex justify-between p-2"
+              className="flex flex-col md:flex-row justify-between p-2 gap-4"
             >
               <div className="flex items-center gap-4">
                 <Image
@@ -72,7 +72,7 @@ export default function Cart() {
                   </div>
                 </CardHeader>
               </div>
-              <div className="flex items-center gap-16">
+              <div className="flex items-center justify-between md:justify-end gap-16">
                 <div className="flex items-center gap-2">
                   <Button
                     variant="default"

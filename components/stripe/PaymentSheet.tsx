@@ -28,7 +28,7 @@ export default function PaymentSheet({ amount }: { amount: number }) {
       <SheetTrigger asChild>
         <Button>Zur Kasse</Button>
       </SheetTrigger>
-      <SheetContent className="w-full md:w-full md:max-w-lg">
+      <SheetContent className="w-full sm:max-w-lg py-12 overflow-y-auto">
         <SheetHeader>
           <SheetTitle></SheetTitle>
           <SheetDescription></SheetDescription>
