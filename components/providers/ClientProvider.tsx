@@ -4,7 +4,6 @@ import { useUserStore } from "@/app/stores/userStore";
 import { useEffect, useState } from "react";
 import { getUserProfile } from "@/utils/supabase/client-queries";
 import { User } from "@supabase/supabase-js";
-import Spinner from "../ui/Spinner";
 
 interface ClientProviderProps {
   children: React.ReactNode;
@@ -15,15 +14,17 @@ export default function ClientProvider({
   children,
   initialUser,
 }: ClientProviderProps) {
-  const { setProfile, isLoading, setIsLoading } = useUserStore();
+  const { setProfile, setIsLoading } = useUserStore();
 
   useEffect(() => {
     async function fetchUserProfile() {
+      setIsLoading(true);
       if (!initialUser) {
         setProfile(null);
+        setIsLoading(false);
         return;
       }
-      setIsLoading(true);
+
       try {
         const result = await getUserProfile(initialUser.id);
         if (result.error) {
