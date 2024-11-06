@@ -7,12 +7,13 @@ import Logo from "./Logo";
 import User from "./User";
 import NoUser from "./NoUser";
 import Spinner from "../ui/Spinner";
+import { CardDescription } from "../ui/card";
 
 export default function Navbar() {
   const { profile, isLoading } = useUserStore();
 
   return (
-    <nav className="flex w-full py-6 px-4 lg:px-12 border-b-4 border-border-navigation bg-background-navigation">
+    <nav className="flex flex-col gap-2 w-full pt-6 pb-0 px-4 lg:px-12 border-b-4 border-border-navigation bg-background-navigation">
       <div className="flex gap-4 items-center justify-between w-full mx-auto">
         <Logo />
         <Links />
@@ -22,6 +23,9 @@ export default function Navbar() {
           {!isLoading && !profile && <NoUser />}
           <ThemeSwitcher />
         </div>
+      </div>
+      <div className="flex w-full justify-center">
+        <CardDescription>Ich bin nur ein Demo Shop!</CardDescription>
       </div>
     </nav>
   );

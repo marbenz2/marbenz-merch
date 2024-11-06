@@ -14,12 +14,7 @@ interface NavLink {
   subcategories?: Subcategory[];
 }
 
-const links: NavLink[] = [
-  {
-    label: "Ich bin ein Demo Shop!",
-    href: "/",
-  },
-];
+const links: NavLink[] = [];
 
 export default function Links() {
   return (
