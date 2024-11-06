@@ -123,19 +123,20 @@ export default function Cart() {
                     }}
                     onBlur={(e) => {
                       const value = e.target.value.trim();
+                      // Standardwert auf minimum_order_quantity oder 0 setzen
                       let newQuantity =
                         value === ""
-                          ? item.product.minimum_order_quantity
+                          ? (item.product.minimum_order_quantity ?? 0)
                           : parseInt(value);
 
                       // Grenzen einhalten
                       newQuantity = Math.max(
                         item.product.minimum_order_quantity ?? 0,
-                        newQuantity ?? 0
+                        newQuantity
                       );
                       newQuantity = Math.min(
-                        item.product.maximum_order_quantity ?? 0,
-                        newQuantity ?? 0
+                        item.product.maximum_order_quantity ?? Infinity,
+                        newQuantity
                       );
 
                       setInputValues((prev) => ({
